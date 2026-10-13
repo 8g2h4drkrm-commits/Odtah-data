@@ -1,1 +1,58 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102033">
+<title>Odtah Data</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--card:#142238;--line:#2b405b;--text:#f2f6fc;--muted:#a9bad0;--accent:#43d6a3;--blue:#4aa3ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#101e32,#080e18 75%);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);min-height:100vh}
+main{max-width:720px;margin:auto;padding:22px 16px 44px}.brand{display:flex;align-items:center;gap:12px;margin:8px 0 24px}.logo{width:54px;height:54px;border-radius:16px;background:var(--accent);color:#082017;display:grid;place-items:center;font-size:28px;font-weight:900}.brand h1{font-size:25px;letter-spacing:.5px;margin:0}.brand p{margin:4px 0 0;color:var(--muted);font-size:13px}.badge{display:inline-block;color:#082017;background:var(--accent);border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800;margin-bottom:10px}
+h2{font-size:18px;margin:22px 0 12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:rgba(20,34,56,.94);border:1px solid var(--line);border-radius:18px;padding:16px}.card h3{margin:8px 0;font-size:16px}.card p{color:var(--muted);font-size:13px;line-height:1.45;margin:0 0 12px}.icon{font-size:26px}button,.button{font:inherit;font-weight:750;border:0;border-radius:12px;padding:12px 14px;background:var(--accent);color:#082017;cursor:pointer;display:inline-block;text-align:center;text-decoration:none;width:100%}.secondary{background:#20344d;color:var(--text);border:1px solid #39516f}.field{margin:12px 0}.field label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}input[type=text],input[type=search]{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;background:#0b1626;color:var(--text);font:inherit;text-transform:uppercase}.file{display:none}.hint{font-size:12px;color:var(--muted);line-height:1.5}.status{white-space:pre-wrap;background:#0a1524;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13px;color:var(--muted);margin-top:12px}.preview{width:100%;max-height:300px;object-fit:contain;border-radius:12px;background:#07101b;margin-top:10px}.record{padding:12px 0;border-bottom:1px solid var(--line)}.record strong{font-size:16px}.record small{display:block;color:var(--muted);overflow-wrap:anywhere;margin:5px 0}.record img{width:76px;height:76px;object-fit:cover;border-radius:9px;margin:6px 6px 0 0}.warning{border-color:#6b5430;background:#2b2417}.foot{color:var(--muted);font-size:12px;margin-top:24px;line-height:1.5}
+@media(max-width:440px){.grid{grid-template-columns:1fr}.brand h1{font-size:22px}}
+</style>
+</head>
+<body><main>
+<header class="brand"><div class="logo">OD</div><div><h1>ODTAH DATA</h1><p>Evidence vozidel a zakázkových listů</p></div></header>
+<span class="badge">MOBILNÍ PROTOTYP</span>
+<div class="card"><h3>Vítej v Odtah Data</h3><p>Nahraj zakázkový list nebo fotografie vozidla. Zadej RZ a záznamy se uloží v tomto prohlížeči.</p><p class="hint">Toto je první návrh rozhraní. Zatím neukládá soubory do složek počítače ani nesynchronizuje data mezi zařízeními.</p></div>
 
+<h2>➕ Přidat záznam</h2>
+<div class="grid">
+<section class="card"><div class="icon">📄</div><h3>Zakázkový list</h3><p>Vyfoť nebo vyber dokument a přiřaď mu RZ.</p><label class="button" for="orderFile">Vybrat / vyfotit</label><input class="file" id="orderFile" type="file" accept="image/*" capture="environment"><div id="orderPreview"></div></section>
+<section class="card"><div class="icon">🚘</div><h3>Fotografie vozidla</h3><p>Přidej jednu nebo více fotek auta.</p><label class="button" for="carFiles">Vybrat / vyfotit</label><input class="file" id="carFiles" type="file" accept="image/*" capture="environment" multiple><div id="carPreview"></div></section>
+</div>
+<div class="card" style="margin-top:12px">
+<div class="field"><label for="plate">Registrační značka (RZ)</label><input id="plate" type="text" placeholder="např. 3U81582" autocomplete="off"></div>
+<button id="saveOrder">Uložit zakázkový list</button>
+<button id="savePhotos" class="secondary" style="margin-top:8px">Uložit fotografie vozidla</button>
+<div class="hint" style="margin-top:10px">RZ zatím zadej ručně. Automatické čtení RZ z dokumentu a SPZ na fotce doplníme v další fázi.</div>
+<div id="status" class="status" role="status">Připraveno.</div>
+</div>
+<h2>🔎 Vyhledat vozidlo</h2>
+<div class="card"><div class="field"><label for="search">Hledat podle RZ</label><input id="search" type="search" placeholder="Zadej RZ…"></div><div id="results"><p class="hint">Záznamy se zobrazí po zadání RZ.</p></div></div>
+<h2>📦 Záloha a přenos</h2>
+<div class="card"><p>Data tohoto prototypu zůstávají pouze v úložišti tohoto prohlížeče. Pravidelně si stáhni zálohu.</p><button id="export" class="secondary">Stáhnout zálohu JSON</button><div class="field" style="margin-top:12px"><label for="importFile">Obnovit zálohu</label><input id="importFile" type="file" accept="application/json"></div><button id="clear" class="secondary" style="margin-top:8px">Smazat místní data</button></div>
+<p class="foot">Ochrana údajů: zakázkové listy mohou obsahovat osobní údaje. Tento prototyp není zabezpečená sdílená databáze. Neukládej do něj citlivé údaje, dokud nepřidáme přihlášení, zabezpečené úložiště a zálohování.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const KEY='odtahData.records.v1';let orderFile=null,carFiles=[];
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}
+function store(rows){localStorage.setItem(KEY,JSON.stringify(rows))}
+function plate(){return $('plate').value.toUpperCase().replace(/[^A-Z0-9]/g,'').trim()}
+function readFile(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve({name:file.name,type:file.type,data:r.result});r.onerror=reject;r.readAsDataURL(file)})}
+function previewFiles(files,target){$(target).innerHTML='';[...files].slice(0,4).forEach(f=>{const img=document.createElement('img');img.className='preview';img.alt='Náhled';img.src=URL.createObjectURL(f);$(target).append(img)})}
+$('orderFile').addEventListener('change',e=>{orderFile=e.target.files[0]||null;previewFiles(orderFile?[orderFile]:[],'orderPreview');$('status').textContent=orderFile?'Zakázkový list vybrán: '+orderFile.name:'Soubor nebyl vybrán.'});
+$('carFiles').addEventListener('change',e=>{carFiles=[...e.target.files];previewFiles(carFiles,'carPreview');$('status').textContent=`Vybráno fotografií: ${carFiles.length}`});
+async function add(kind,files){const p=plate();if(!p){$('status').textContent='Nejdřív zadej RZ.';return}if(!files.length){$('status').textContent='Nejdřív vyber nebo vyfoť soubor.';return}try{const rows=load();for(const f of files){rows.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),plate:p,kind,name:f.name,type:f.type,data:await readFile(f).then(x=>x.data),created:new Date().toISOString()})}store(rows);$('status').textContent=`Uloženo: ${files.length} soubor(ů) pro RZ ${p}. Zatím pouze v tomto prohlížeči.`;render()}catch(e){$('status').textContent='Soubor se nepodařilo uložit. Může být příliš velký; zkus menší fotku.'}}
+$('saveOrder').onclick=()=>add('order',orderFile?[orderFile]:[]);
+$('savePhotos').onclick=()=>add('car',carFiles);
+function render(){const q=$('search').value.toUpperCase().replace(/[^A-Z0-9]/g,'');const rows=load().filter(r=>!q||r.plate.includes(q)).sort((a,b)=>b.created.localeCompare(a.created));const box=$('results');box.innerHTML='';if(!rows.length){box.innerHTML='<p class="hint">Žádné odpovídající záznamy.</p>';return}for(const r of rows){const d=document.createElement('div');d.className='record';const title=document.createElement('strong');title.textContent=r.plate+' · '+(r.kind==='order'?'Zakázkový list':'Fotografie vozidla');const small=document.createElement('small');small.textContent=r.name+' · '+new Date(r.created).toLocaleString('cs-CZ');d.append(title,small);const img=document.createElement('img');img.src=r.data;img.alt=r.name;img.onclick=()=>{const a=document.createElement('a');a.href=r.data;a.download=r.name||r.plate+'.jpg';a.click()};d.append(img);const del=document.createElement('button');del.className='secondary';del.textContent='Smazat záznam';del.style.marginTop='8px';del.onclick=()=>{if(confirm('Opravdu smazat tento záznam?')){store(load().filter(x=>x.id!==r.id));render()}};d.append(del);box.append(d)}}
+$('search').addEventListener('input',render);
+$('export').onclick=()=>{const blob=new Blob([JSON.stringify(load(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='odtah-data-zaloha.json';a.click();URL.revokeObjectURL(a.href)};
+$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const rows=JSON.parse(await f.text());if(!Array.isArray(rows))throw Error();store(rows);render();$('status').textContent='Záloha obnovena.'}catch{$('status').textContent='Neplatný soubor zálohy.'}};
+$('clear').onclick=()=>{if(confirm('Opravdu smazat všechna místní data? Tuto akci nelze vrátit.')){localStorage.removeItem(KEY);render();$('status').textContent='Místní data smazána.'}};
+render();
+</script></body></html>
